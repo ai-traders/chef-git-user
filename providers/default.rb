@@ -5,6 +5,7 @@ def load_current_resource
   @home        = new_resource.home  || (@login == 'root' ? '/root' : "/home/#{@login}")
   @private_key = new_resource.private_key
   @known_hosts = new_resource.known_hosts
+  @push_default = new_resource.push_default
 end
 
 action :create do
@@ -43,7 +44,7 @@ action :create do
     end
   end
 
-  conf_r = gitconfig(@home, @full_name, @email)
+  conf_r = gitconfig(@home, @full_name, @email, @push_default)
 
   [ conf_r, key_r, ssh_r ].each do |res|
     if res && res.updated_by_last_action?
@@ -54,7 +55,7 @@ action :create do
 
 end
 
-def gitconfig(home, full_name, email)
+def gitconfig(home, full_name, email, push_default)
   template "#{home}/.gitconfig" do
     cookbook 'git_user'
     source 'gitconfig.erb'
@@ -62,7 +63,8 @@ def gitconfig(home, full_name, email)
 
     variables(
       :name  => full_name,
-      :email => email
+      :email => email,
+      :push_default => push_default
     )
   end
 end

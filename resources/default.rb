@@ -6,6 +6,7 @@ attribute :full_name,   :kind_of => String
 attribute :email,       :kind_of => String
 attribute :private_key, :kind_of => String
 attribute :known_hosts, :kind_of => Array, :default => []
+attribute :push_default, :kind_of => String
 
 def initialize(*args)
   super

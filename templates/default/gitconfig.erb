@@ -12,3 +12,8 @@
   status = auto
   branch = auto
   ui = auto
+
+<% if !@push_default.nil? %>
+[push]
+  default = <%= @push_default %>
+<% end %>
